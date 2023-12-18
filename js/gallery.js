@@ -82,25 +82,25 @@ container.innerHTML = images.reduce(
   ""
 );
 
-container.addEventListener("click", (event) => {
-  event.preventDefault();
-
+const listImages = (event) => {
   const source = event.target.dataset.source;
-
-  if (source) {
-    const myModal = basicLightbox.create(`
+  event.preventDefault();
+  const myModal = basicLightbox.create(`
       <img
         class="modal"
         src="${source}"
         alt="${event.target.alt}"
       />`);
 
+  if (event.target.tagName === "IMG") {
     myModal.show();
-
-    if (myModal.visible()) {
-      document.addEventListener("keydown", (event) => {
-        myModal.close();
-      });
-    }
   }
-});
+
+  if (myModal.visible()) {
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") myModal.close();
+    });
+  }
+};
+
+container.addEventListener("click", listImages);
