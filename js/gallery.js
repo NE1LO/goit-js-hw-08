@@ -92,14 +92,20 @@ const listImages = (event) => {
         alt="${event.target.alt}"
       />`);
 
+  const closeModal = () => {
+    myModal.close();
+    window.removeEventListener("keydown", onKeyPress);
+  };
+
+  const onKeyPress = (event) => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  };
+
   if (event.target.tagName === "IMG") {
     myModal.show();
-  }
-
-  if (myModal.visible()) {
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") myModal.close();
-    });
+    window.addEventListener("keydown", onKeyPress);
   }
 };
 
