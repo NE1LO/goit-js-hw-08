@@ -85,6 +85,7 @@ container.innerHTML = images.reduce(
 const listImages = (event) => {
   const source = event.target.dataset.source;
   event.preventDefault();
+
   const myModal = basicLightbox.create(`
       <img
         class="modal"
@@ -92,20 +93,14 @@ const listImages = (event) => {
         alt="${event.target.alt}"
       />`);
 
-  const closeModal = () => {
-    myModal.close();
-    window.removeEventListener("keydown", onKeyPress);
-  };
-
-  const onKeyPress = (event) => {
-    if (event.key === "Escape") {
-      closeModal();
-    }
-  };
-
   if (event.target.tagName === "IMG") {
     myModal.show();
-    window.addEventListener("keydown", onKeyPress);
+  }
+
+  if (myModal.visible()) {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") myModal.close();
+    });
   }
 };
 
